@@ -17,23 +17,20 @@ class SelimImzaService : AccessibilityService() {
         if (pkg != "com.whatsapp.w4b" && pkg != "com.whatsapp") return
 
         val root = rootInActiveWindow ?: return
-        val nodes = root.findAccessibilityNodeInfosByViewId("$pkg:id/entry")
-        if (nodes.isNullOrEmpty()) return
-
-        val editNode = nodes[0]
-        if (!editNode.isFocused) return
+        
+        // ID aramak yerine o an aktif olarak yazı yazılan kutuyu bul
+        val editNode = root.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)
+        if (editNode == null || !editNode.isEditable) return
 
         val text = editNode.text?.toString() ?: ""
         if (text.isEmpty() || editNode.isShowingHintText) return
 
-        // İmzayı anlık olarak ayarlardan oku
         val sharedPref = getSharedPreferences("TSY_Ayarlar", Context.MODE_PRIVATE)
         val guncelImza = sharedPref.getString("imza_metni", "*TSY SELİM*") ?: "*TSY SELİM*"
 
         if (text.endsWith(TETIKLEYICI) && !text.contains(guncelImza)) {
             isUpdating = true
             val temizMetin = text.substring(0, text.length - TETIKLEYICI.length)
-            
             val yeniMetin = if (guncelImza.isNotEmpty()) "$guncelImza\n$temizMetin" else temizMetin
             
             val args = Bundle().apply {
