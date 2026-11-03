@@ -1,4 +1,4 @@
-﻿name: TSY APK Derleyici
+name: TSY APK Derleyici
 on: [push, workflow_dispatch]
 jobs:
   build:
