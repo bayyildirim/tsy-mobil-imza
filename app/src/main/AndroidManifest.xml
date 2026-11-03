@@ -1,12 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tsy.selimimza">
     <application
-        android:label="TSY Selim İmza"
-        android:allowBackup="true">
+        android:allowBackup="true"
+        android:label="TSY İmza"
+        android:theme="@android:style/Theme.DeviceDefault.Light">
+        
+        <!-- Uygulama Menüsü Ekranı -->
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Arka Plan Servisi -->
         <service
             android:name=".SelimImzaService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
+            android:exported="true"
+            android:label="TSY İmza Servisi"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
